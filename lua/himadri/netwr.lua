@@ -29,6 +29,6 @@ local function toggle_netrw()
   vim.cmd 'Lexplore'
 end
 
-vim.keymap.set('n', '<leader>e', toggle_netrw, {
-  desc = 'Toggle Netrw file explorer',
-})
+--vim.keymap.set('n', '<leader>e', toggle_netrw, {
+--desc = 'Toggle Netrw file explorer',
+--})

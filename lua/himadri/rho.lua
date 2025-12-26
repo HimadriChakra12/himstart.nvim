@@ -7,8 +7,8 @@ require 'himadri.style'
 require 'himadri.theme'
 require 'himadri.dx'
 require 'himadri.terminal'
-require 'himadri.big_bang.lua'
-require('himadri.netwr')
+--require 'himadri.big_bang.lua'
+require 'himadri.netwr'
 require('himadri.zoxide').setup()
 
 -- lua/phimadri.himadri.lugins..
