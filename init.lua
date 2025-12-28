@@ -28,6 +28,8 @@ vim.opt.tabstop = 4 -- A TAB character looks like 4 spaces
 vim.opt.shiftwidth = 4 -- Number of spaces inserted when indenting
 vim.opt.softtabstop = 4 -- Number of spaces inserted when pressing TAB
 vim.opt.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.opt.encoding = 'utf-8'
+vim.opt.fileencoding = 'utf-8'
 
 --CUSTOM
 require 'himadri.rho'
@@ -117,6 +119,11 @@ require('lazy').setup({
     },
   },
 
+  {
+    'nvim-tree/nvim-web-devicons',
+    enabled = vim.g.have_nerd_font,
+  },
+
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -138,7 +145,6 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       require('telescope').setup {
@@ -504,6 +510,29 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
     end,
+  },
+  {
+    "sphamba/smear-cursor.nvim",
+
+    opts = {
+      -- Smear cursor when switching buffers or windows.
+      smear_between_buffers = true,
+
+      -- Smear cursor when moving within line or to neighbor lines.
+      -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
+      smear_between_neighbor_lines = true,
+
+      -- Draw the smear in buffer space instead of screen space when scrolling
+      scroll_buffer_space = true,
+
+      -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
+      -- Smears and particles will look a lot less blocky.
+      legacy_computing_symbols_support = false,
+
+      -- Smear cursor in insert mode.
+      -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
+      smear_insert_mode = true,
+    },
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
