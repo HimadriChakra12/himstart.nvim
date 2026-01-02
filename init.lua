@@ -36,7 +36,7 @@ require 'himadri.rho'
 vim.keymap.set('n', 'z', ':Zcd ', { noremap = true })
 vim.keymap.set('n', '<leader>.', ':Zt<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>e', ':Oil<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>,', ':Git<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gg', ':Git<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>h', function()
   require('nvchad.term').new { pos = 'sp' }
 end, { desc = 'terminal new horizontal term' })
@@ -168,7 +168,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>f', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>g', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>go', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -511,29 +511,31 @@ require('lazy').setup({
       require('mini.surround').setup()
     end,
   },
-  {
-    "sphamba/smear-cursor.nvim",
-
-    opts = {
-      -- Smear cursor when switching buffers or windows.
-      smear_between_buffers = true,
-
-      -- Smear cursor when moving within line or to neighbor lines.
-      -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
-      smear_between_neighbor_lines = true,
-
-      -- Draw the smear in buffer space instead of screen space when scrolling
-      scroll_buffer_space = true,
-
-      -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
-      -- Smears and particles will look a lot less blocky.
-      legacy_computing_symbols_support = false,
-
-      -- Smear cursor in insert mode.
-      -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
-      smear_insert_mode = true,
-    },
-  },
+  --[
+  --{
+  --'sphamba/smear-cursor.nvim',
+  --
+  --opts = {
+  ---- Smear cursor when switching buffers or windows.
+  --smear_between_buffers = true,
+  --
+  ---- Smear cursor when moving within line or to neighbor lines.
+  ---- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
+  --smear_between_neighbor_lines = true,
+  --
+  ---- Draw the smear in buffer space instead of screen space when scrolling
+  --scroll_buffer_space = true,
+  --
+  ---- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
+  ---- Smears and particles will look a lot less blocky.
+  --legacy_computing_symbols_support = true,
+  --
+  ---- Smear cursor in insert mode.
+  ---- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
+  --smear_insert_mode = true,
+  --},
+  --},
+  --
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
