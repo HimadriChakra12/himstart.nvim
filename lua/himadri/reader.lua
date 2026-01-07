@@ -19,7 +19,7 @@ function ToggleReaderMode()
     vim.o.showcmd = false
     vim.o.laststatus = 0
     vim.o.cmdheight = 1 -- keep command line visible
-    vim.o.signcolumn = "no"
+    vim.o.signcolumn = 'no'
     vim.wo.number = false
     vim.wo.relativenumber = false
     vim.o.showtabline = 0
@@ -38,11 +38,9 @@ function ToggleReaderMode()
     vim.wo.number = vim.g._last_number
     vim.wo.relativenumber = vim.g._last_relativenumber
     vim.o.showtabline = vim.g._last_showtabline
-    vim.o.cursorline = true
-    vim.o.cursorcolumn = true
 
     reader_mode = false
   end
 end
 
-vim.api.nvim_set_keymap("n", "<leader>r", ":lua ToggleReaderMode()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>r', ':lua ToggleReaderMode()<CR>', { noremap = true, silent = true })
