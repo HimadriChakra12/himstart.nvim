@@ -37,6 +37,7 @@ vim.keymap.set('n', 'z', ':Zcd ', { noremap = true })
 vim.keymap.set('n', '<leader>.', ':Zt<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>e', ':Oil<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>gg', ':Git<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', ';;', ':w<CR>', { noremap = true, silent = true })
 
 require 'theradlectures.terminalflaot'
 
@@ -150,6 +151,11 @@ require('lazy').setup({
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
+          },
+        },
+        pickers = {
+          buffers = {
+            ignore_current_buffer = true,
           },
         },
       }
@@ -774,6 +780,13 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    {
+      'https://gitlab.com/itaranto/id3.nvim',
+      version = '*',
+      config = function()
+        require('id3').setup()
+      end,
+    },
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
