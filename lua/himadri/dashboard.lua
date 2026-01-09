@@ -3,19 +3,6 @@ local M = {}
 ------------------------------------------------------------
 -- Utility: wipe useless [No Name] buffers (repeat-safe)
 ------------------------------------------------------------
-local function wipe_empty_buffers()
-  local wiped = false
-
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_name(buf) == '' and vim.bo[buf].buftype == '' then
-      vim.api.nvim_buf_delete(buf, { force = true })
-      wiped = true
-    end
-  end
-
-  return wiped
-end
-
 ------------------------------------------------------------
 -- Git status (short)
 ------------------------------------------------------------
@@ -63,10 +50,6 @@ end
 ------------------------------------------------------------
 function M.show()
   -- Keep nuking [No Name] buffers until Neovim stops spawning them
-  vim.defer_fn(function()
-    while wipe_empty_buffers() do
-    end
-  end, 0)
 
   ----------------------------------------------------------
   -- Highlights
@@ -163,7 +146,6 @@ function M.show()
   vim.api.nvim_buf_set_name(buf, 'Welcome, Himadri')
 
   vim.bo[buf].buftype = 'nofile'
-  vim.bo[buf].bufhidden = 'wipe'
   vim.bo[buf].swapfile = false
   vim.bo[buf].buflisted = false
   vim.bo[buf].modifiable = true
