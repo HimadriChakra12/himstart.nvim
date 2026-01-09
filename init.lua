@@ -32,14 +32,13 @@ vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 
 --CUSTOM
-require 'himadri.rho'
+require 'himadri.himadri'
 vim.keymap.set('n', 'z', ':Zcd ', { noremap = true })
 vim.keymap.set('n', '<leader>.', ':Zt<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>e', ':Oil<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>gg', ':Git<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>h', function()
-  require('nvchad.term').new { pos = 'sp' }
-end, { desc = 'terminal new horizontal term' })
+
+require 'theradlectures.terminalflaot'
 
 --KEYMAPs
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
