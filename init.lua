@@ -556,7 +556,6 @@ require('lazy').setup({
         columns = {
           'permissions',
           'size',
-          'icon',
           'mtime',
         },
         -- Buffer-local options to use for oil buffers
