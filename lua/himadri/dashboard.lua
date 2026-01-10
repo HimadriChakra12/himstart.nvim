@@ -130,15 +130,6 @@ local function show_dashboard()
   --------------------------------------------------------
   -- Footer
   --------------------------------------------------------
-  local footer = {
-    '',
-    '  [n] New File',
-    '  [h] Help',
-    '  [q] Quit',
-    '  [o],[Enter] Open file',
-    '',
-  }
-
   --------------------------------------------------------
   -- Buffer setup
   --------------------------------------------------------
@@ -171,8 +162,6 @@ local function show_dashboard()
   else
     table.insert(content, string.format('   %s  +%d  ~%d  ?%d', git.branch, git.staged, git.modified, git.untracked))
   end
-
-  vim.list_extend(content, footer)
 
   --------------------------------------------------------
   -- Write buffer
@@ -236,6 +225,7 @@ local function show_dashboard()
   vim.keymap.set('n', '<CR>', open_selected, opts)
   vim.keymap.set('n', 'o', open_selected, opts)
 
+  vim.keymap.set('n', 'e', ':edit $MYVIMRC<CR>', opts)
   vim.keymap.set('n', 'n', ':enew<CR>', opts)
   vim.keymap.set('n', 'h', ':help<CR>', opts)
   vim.keymap.set('n', 'q', ':q<CR>', opts)
