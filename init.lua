@@ -573,8 +573,8 @@ require('lazy').setup({
         columns = {
           'icon',
           -- "permissions",
-          -- "size",
-          -- "mtime",
+          'size',
+          'mtime',
         },
         -- Buffer-local options to use for oil buffers
         buf_options = {
@@ -640,6 +640,7 @@ require('lazy').setup({
           ['gx'] = 'actions.open_external',
           ['g.'] = { 'actions.toggle_hidden', mode = 'n' },
           ['g\\'] = { 'actions.toggle_trash', mode = 'n' },
+          ['q'] = { 'actions.close', mode = 'n' },
         },
         -- Set to false to disable all of the above keymaps
         use_default_keymaps = true,
