@@ -7,9 +7,10 @@ require 'himadri.style'
 require 'himadri.theme'
 require 'himadri.dx'
 require 'himadri.terminal'
---require 'himadri.big_bang.lua'
 require 'himadri.netwr'
 require('himadri.zoxide').setup()
+require 'himadri.shell'
+require 'himadri.args'
 
 -- lua/phimadri.himadri.lugins..
 --require("himadri.plugins.nvim_compile")
