@@ -555,9 +555,6 @@ require('lazy').setup({
         go_prev_heading = '[[', -- (string|boolean) set cursor to previous section heading
       },
       inline_surround = {
-        -- For the emphasis, strong, strikethrough, and code fields:
-        -- * 'key': used to specify an inline style in toggle, delete, and change operations
-        -- * 'txt': text inserted when toggling or changing to the corresponding inline style
         emphasis = {
           key = 'i',
           txt = '*',
@@ -608,7 +605,6 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
-      -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
         enable = true,
@@ -635,6 +631,15 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>me', plugin.edit_entries, { desc = '[M]istake [E]dit entries' })
         vim.keymap.set('n', '<leader>mc', plugin.add_entry_under_cursor, { desc = '[M]istake add [C]urrent word' })
       end,
+    },
+    {
+      'iamcco/markdown-preview.nvim',
+      cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+      build = 'cd app && npm install',
+      init = function()
+        vim.g.mkdp_filetypes = { 'markdown' }
+      end,
+      ft = { 'markdown' },
     },
     {
       'stevearc/oil.nvim',
