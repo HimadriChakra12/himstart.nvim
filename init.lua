@@ -104,7 +104,73 @@ require('lazy').setup({
       },
     },
   },
+  -- In ~/.config/nvim/lua/plugins/excel.lua (or in your main init.lua)
+  {
+    'HimadriChakra12/excel.nvim',
+    dependencies = {
+      -- Optional: Better CSV editing experience
+      'chrisbra/csv.vim',
+      -- Optional: CSV syntax highlighting
+      'mechatroner/rainbow_csv',
+    },
+    config = function()
+      require('excel').setup {
+        -- Python command to use (default: 'python3')
+        python_cmd = 'python3',
 
+        -- Temporary directory for CSV files
+        temp_dir = vim.fn.stdpath 'cache' .. '/excel.nvim',
+
+        -- Auto-recalculate formulas when saving
+        auto_recalc = true,
+
+        -- Default sheet index to open (0-indexed)
+        default_sheet = 0,
+
+        -- Floating window configuration
+        float_opts = {
+          relative = 'editor',
+          width = math.floor(vim.o.columns * 0.9),
+          height = math.floor(vim.o.lines * 0.9),
+          col = math.floor(vim.o.columns * 0.05),
+          row = math.floor(vim.o.lines * 0.05),
+          style = 'minimal',
+          border = 'rounded',
+        },
+      }
+
+      -- Optional: Set up key mappings
+      local map = vim.keymap.set
+
+      -- Excel commands
+      map('n', '<leader>xo', '<cmd>ExcelOpen<cr>', { desc = 'Excel: Open file' })
+      map('n', '<leader>xv', '<cmd>ExcelView<cr>', { desc = 'Excel: View file' })
+      map('n', '<leader>xs', '<cmd>ExcelSave<cr>', { desc = 'Excel: Save file' })
+      map('n', '<leader>xc', '<cmd>ExcelCreate<cr>', { desc = 'Excel: Create new file' })
+      map('n', '<leader>xl', '<cmd>ExcelSheets<cr>', { desc = 'Excel: List sheets' })
+      map('n', '<leader>xi', '<cmd>ExcelInfo<cr>', { desc = 'Excel: Show info' })
+
+      -- Sheet navigation
+      map('n', '<leader>x1', '<cmd>ExcelSwitchSheet 0<cr>', { desc = 'Excel: Switch to sheet 0' })
+      map('n', '<leader>x2', '<cmd>ExcelSwitchSheet 1<cr>', { desc = 'Excel: Switch to sheet 1' })
+      map('n', '<leader>x3', '<cmd>ExcelSwitchSheet 2<cr>', { desc = 'Excel: Switch to sheet 2' })
+
+      -- Auto-open Excel files
+      vim.api.nvim_create_autocmd('BufReadCmd', {
+        pattern = '*.xlsx',
+        callback = function()
+          require('excel').open(vim.fn.expand '<afile>')
+        end,
+      })
+    end,
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+  },
   {
     'nvim-tree/nvim-web-devicons',
     enabled = vim.g.have_nerd_font,
@@ -647,19 +713,15 @@ require('lazy').setup({
       ---@type oil.SetupOpts
       opts = {
         default_file_explorer = true,
-        -- Id is automatically added at the beginning, and name at the end
-        -- See :help oil-columns
         columns = {
           'permissions',
           'size',
           'mtime',
         },
-        -- Buffer-local options to use for oil buffers
         buf_options = {
           buflisted = false,
           bufhidden = 'hide',
         },
-        -- Window-local options to use for oil buffers
         win_options = {
           wrap = false,
           signcolumn = 'no',
@@ -681,18 +743,11 @@ require('lazy').setup({
         -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
         cleanup_delay_ms = 2000,
         lsp_file_methods = {
-          -- Enable or disable LSP file operations
           enabled = true,
-          -- Time to wait for LSP file operations to complete before skipping
           timeout_ms = 1000,
-          -- Set to true to autosave buffers that are updated with LSP willRenameFiles
-          -- Set to "unmodified" to only save unmodified buffers
           autosave_changes = false,
         },
-        -- Constrain the cursor to the editable parts of the oil buffer
-        -- Set to `false` to disable, or "name" to keep it on the file names
         constrain_cursor = 'editable',
-        -- Set to true to watch the filesystem for changes and reload oil
         watch_for_changes = false,
         -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
         -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
@@ -719,7 +774,6 @@ require('lazy').setup({
           ['g\\'] = { 'actions.toggle_trash', mode = 'n' },
           ['q'] = { 'actions.close', mode = 'n' },
         },
-        -- Set to false to disable all of the above keymaps
         use_default_keymaps = true,
         view_options = {
           -- Show files and directories that start with "."
@@ -848,8 +902,6 @@ require('lazy').setup({
       },
       -- Optional dependencies
       dependencies = { { 'nvim-mini/mini.icons', opts = {} } },
-      -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
       lazy = false,
     },
     -- There are additional nvim-treesitter modules that you can use to interact
@@ -866,37 +918,14 @@ require('lazy').setup({
       end,
     },
   },
-
-  -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- place them in the correct locations.
-
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
-  --
-  -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
-  -- Or use telescope!
-  -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
-  -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
@@ -914,7 +943,3 @@ require('lazy').setup({
     },
   },
 })
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
