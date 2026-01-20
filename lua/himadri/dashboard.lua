@@ -163,7 +163,7 @@ local function show_dashboard()
   if not git then
     table.insert(content, '  Not a git repository')
   else
-    table.insert(content, string.format('   %s  +%d  ~%d  ?%d', git.branch, git.staged, git.modified, git.untracked))
+    table.insert(content, string.format('   %s  +%d  ~%d  ?%d', git.branch, git.staged, git.modified, git.untracked))
   end
 
   --------------------------------------------------------
@@ -198,9 +198,17 @@ local function show_dashboard()
   --------------------------------------------------------
   local opts = { buffer = buf, silent = true, nowait = true }
 
+  -- Keybinds for recent files (1-5)
   for i, item in ipairs(recent_files) do
     vim.keymap.set('n', tostring(i), function()
       vim.cmd('edit ' .. vim.fn.fnameescape(item.path))
+    end, opts)
+  end
+
+  -- Keybinds for pinned files (p1, p2, p3, ...)
+  for i, pin in ipairs(pins) do
+    vim.keymap.set('n', 'p' .. tostring(i), function()
+      vim.cmd('edit ' .. vim.fn.fnameescape(pin.path))
     end, opts)
   end
 
