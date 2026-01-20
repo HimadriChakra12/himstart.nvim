@@ -1,3 +1,5 @@
+-- Dynamic Variables According to user Preference
+local Dashboard_file_counter_number = 5
 ------------------------------------------------------------
 -- Startup autocmd (numbers + intro handling)
 ------------------------------------------------------------
@@ -62,6 +64,7 @@ local function show_dashboard()
   --------------------------------------------------------
   vim.cmd [[
         highlight! DashboardHeader     guifg=#b8bb26
+
         highlight! DashboardGitHeader  guifg=#fabd2f
         highlight! DashboardGitClean   guifg=#b8bb26
         highlight! DashboardGitDirty   guifg=#fb4934
@@ -110,7 +113,7 @@ local function show_dashboard()
   local counter = 1
 
   for _, file in ipairs(vim.v.oldfiles) do
-    if counter > 9 then
+    if counter > Dashboard_file_counter_number then
       break
     end
     if vim.fn.filereadable(file) == 1 then

@@ -11,6 +11,7 @@ require 'himadri.netwr'
 require('himadri.zoxide').setup()
 require 'himadri.shell'
 require 'himadri.args'
+require 'himadri.pin'
 
 -- lua/phimadri.himadri.lugins..
 --require("himadri.plugins.nvim_compile")
