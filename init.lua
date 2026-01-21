@@ -33,16 +33,6 @@ vim.opt.fileencoding = 'utf-8'
 
 --CUSTOM
 require 'himadri.himadri'
-vim.keymap.set('n', 'z', ':Zcd ', { noremap = true })
-vim.keymap.set('n', '<leader>.', ':Zt<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>e', ':Oil<CR>', { noremap = true, silent = true })
-
-vim.keymap.set('n', '<leader>g', ':Git<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>gp', ':!git push<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>gP', ':!git pull<CR>', { noremap = true, silent = true })
-
-vim.keymap.set('n', ';;', ':w<CR>', { noremap = true, silent = true })
-
 require 'theradlectures.terminalflaot'
 
 --KEYMAPs

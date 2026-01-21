@@ -1,2 +1,17 @@
-vim.keymap.set('n', 'z', ':Zcd ', { noremap = true })
-vim.keymap.set('n', '<leader>.', ':Zt<CR>', { noremap = true, silent = true })
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+local pin_buf = require 'plugins.bufman'
+
+keymap('n', '<C-w>', ':bd<CR>', opts)
+
+keymap('n', 'cd', ':Zcd ', { noremap = true })
+keymap('n', '<leader>.', ':Zt<CR>', opts)
+keymap('n', '<leader>e', ':Oil<CR>', opts)
+keymap('v', '<leader>Y', '"+y', { silent = true, desc = 'Yamk' })
+keymap('n', '<leader>bp', pin_buf.toggle_pin, { desc = 'Pin buffer' })
+
+keymap('n', '<leader>g', ':Git<CR>', opts)
+keymap('n', '<leader>gp', ':!git push<CR>', opts)
+keymap('n', '<leader>gP', ':!git pull<CR>', opts)
+
+keymap('n', ';;', ':w<CR>', opts)
