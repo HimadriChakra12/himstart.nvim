@@ -1,8 +1,6 @@
 local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-keymap('n', '<C-w>', ':bd<CR>', opts)
-
 keymap('n', 'cd', ':Zcd ', { noremap = true })
 keymap('n', '<leader>.', ':Zt<CR>', opts)
 keymap('n', '<leader>e', ':Oil<CR>', opts)

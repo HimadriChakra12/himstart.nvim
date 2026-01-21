@@ -94,65 +94,32 @@ require('lazy').setup({
       },
     },
   },
-  -- In ~/.config/nvim/lua/plugins/excel.lua (or in your main init.lua)
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+      { 'tpope/vim-dadbod', lazy = true },
+      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
+    },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
   {
     'HimadriChakra12/excel.nvim',
-    dependencies = {
-      -- Optional: Better CSV editing experience
-      'chrisbra/csv.vim',
-      -- Optional: CSV syntax highlighting
-      'mechatroner/rainbow_csv',
+    opts = {
+      python_cmd = 'python3',
+      max_col_width = 20,
+      auto_recalc = false,
+      show_gridlines = true, -- Show cell borders
+      show_formulas = false, -- Show formulas instead of values
     },
-    config = function()
-      require('excel').setup {
-        -- Python command to use (default: 'python3')
-        python_cmd = 'python3',
-
-        -- Temporary directory for CSV files
-        temp_dir = vim.fn.stdpath 'cache' .. '/excel.nvim',
-
-        -- Auto-recalculate formulas when saving
-        auto_recalc = true,
-
-        -- Default sheet index to open (0-indexed)
-        default_sheet = 0,
-
-        -- Floating window configuration
-        float_opts = {
-          relative = 'editor',
-          width = math.floor(vim.o.columns * 0.9),
-          height = math.floor(vim.o.lines * 0.9),
-          col = math.floor(vim.o.columns * 0.05),
-          row = math.floor(vim.o.lines * 0.05),
-          style = 'minimal',
-          border = 'rounded',
-        },
-      }
-
-      -- Optional: Set up key mappings
-      local map = vim.keymap.set
-
-      -- Excel commands
-      map('n', '<leader>xo', '<cmd>ExcelOpen<cr>', { desc = 'Excel: Open file' })
-      map('n', '<leader>xv', '<cmd>ExcelView<cr>', { desc = 'Excel: View file' })
-      map('n', '<leader>xs', '<cmd>ExcelSave<cr>', { desc = 'Excel: Save file' })
-      map('n', '<leader>xc', '<cmd>ExcelCreate<cr>', { desc = 'Excel: Create new file' })
-      map('n', '<leader>xl', '<cmd>ExcelSheets<cr>', { desc = 'Excel: List sheets' })
-      map('n', '<leader>xi', '<cmd>ExcelInfo<cr>', { desc = 'Excel: Show info' })
-
-      -- Sheet navigation
-      map('n', '<leader>x1', '<cmd>ExcelSwitchSheet 0<cr>', { desc = 'Excel: Switch to sheet 0' })
-      map('n', '<leader>x2', '<cmd>ExcelSwitchSheet 1<cr>', { desc = 'Excel: Switch to sheet 1' })
-      map('n', '<leader>x3', '<cmd>ExcelSwitchSheet 2<cr>', { desc = 'Excel: Switch to sheet 2' })
-
-      -- Auto-open Excel files
-      vim.api.nvim_create_autocmd('BufReadCmd', {
-        pattern = '*.xlsx',
-        callback = function()
-          require('excel').open(vim.fn.expand '<afile>')
-        end,
-      })
-    end,
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
@@ -435,6 +402,8 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -463,9 +432,6 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
         dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
-          --    See the README about individual language/framework/plugin snippets:
-          --    https://github.com/rafamadriz/friendly-snippets
           -- {
           --   'rafamadriz/friendly-snippets',
           --   config = function()
@@ -503,9 +469,6 @@ require('lazy').setup({
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
-
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
 
       appearance = {
@@ -551,12 +514,6 @@ require('lazy').setup({
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
-      -- Better Around/Inside textobjects
-      --
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]paren
-      --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
-      --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
@@ -567,31 +524,6 @@ require('lazy').setup({
       require('mini.surround').setup()
     end,
   },
-  --[
-  --{
-  --'sphamba/smear-cursor.nvim',
-  --
-  --opts = {
-  ---- Smear cursor when switching buffers or windows.
-  --smear_between_buffers = true,
-  --
-  ---- Smear cursor when moving within line or to neighbor lines.
-  ---- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
-  --smear_between_neighbor_lines = true,
-  --
-  ---- Draw the smear in buffer space instead of screen space when scrolling
-  --scroll_buffer_space = true,
-  --
-  ---- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
-  ---- Smears and particles will look a lot less blocky.
-  --legacy_computing_symbols_support = true,
-  --
-  ---- Smear cursor in insert mode.
-  ---- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
-  --smear_insert_mode = true,
-  --},
-  --},
-
   {
     'tadmccorkle/markdown.nvim',
     ft = 'markdown', -- or 'event = "VeryLazy"'
