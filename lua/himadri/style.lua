@@ -48,6 +48,7 @@ end
 -- [x] vim.opt.statusline = "%{%v:lua.get_mode()%}[%f] %=%{luaeval('get_buffers()')}%= %#LineNr# %y %p%% %#StatusLineMode#%{get(g:, 'get_git_branch', '')}%{get(g:, 'get_git_status', '')}%#StatusLine# [%L:%c]"
 -- vim.opt.statusline = "[%{toupper(mode())}] | %{luaeval('get_buffers()')}%=  |%#LineNr# %y %m %p%% %#StatusLineMode# " .. get_git_branch() .. get_git_status() ..  " %#StatusLine# %l:%L:%c  "
 -- [latest] vim.opt.statusline = "[%{toupper(mode())}] [%L:%c] %m %= [ %f ] %= %y %p%% %#StatusLineMode#" .. get_git_branch() .. get_git_status() ..  "%#StatusLine# "
+-- vim.opt.statusline = '[%{toupper(mode())}] [%L:%c] %m %= [%f] %= [%{v:lua.statusline_args()}] %y %p%% %#StatusLineMode#' .. get_git_branch() .. get_git_status() .. '%#StatusLine# '
 local buffer_list = {}
 
 local function update_buffers()
@@ -105,7 +106,8 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufDelete' }, {
 -- Initialize the buffer list
 update_buffers()
 
-vim.opt.statusline = '[%{toupper(mode())}] [%L:%c] %m %= [%f] %= [%{v:lua.statusline_args()}] %y %p%% %#StatusLineMode#'
+-- [latest] vim.opt.statusline = "[%{toupper(mode())}] [%L:%c] %m %= [ %f ] %= %y %p%% %#StatusLineMode#" .. get_git_branch() .. get_git_status() ..  "%#StatusLine# "
+vim.opt.statusline = "[%{toupper(mode())}] [%L:%c] %m %{luaeval('get_buffers()')} %= %y %p%% %#StatusLineMode#"
   .. get_git_branch()
   .. get_git_status()
   .. '%#StatusLine# '
