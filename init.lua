@@ -31,6 +31,12 @@ vim.opt.softtabstop = 4 -- Number of spaces inserted when pressing TAB
 vim.opt.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
+vim.g.mkdp_preview_options = {
+  katex = {},
+}
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.o.conceallevel = 2
 
 --CUSTOM
 require 'himadri.himadri'
@@ -92,6 +98,23 @@ require('lazy').setup({
         delete = { text = '_' },
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
+      },
+    },
+  },
+  {
+    'lervag/vimtex',
+    ft = { 'tex', 'markdown' },
+  },
+  {
+    'epwalsh/obsidian.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    ft = 'markdown',
+    opts = {
+      workspaces = {
+        {
+          name = 'notes',
+          path = '~/Obsidian',
+        },
       },
     },
   },
@@ -593,7 +616,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'latex' },
       auto_install = true,
       highlight = {
         enable = true,
