@@ -197,11 +197,6 @@ require('lazy').setup({
           async_or_timeout = 3000,
         },
       }
-
-      -- =================
-      -- Keymaps
-      -- =================
-
       -- Help / meta
       vim.keymap.set('n', '<leader>sh', fzf.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', fzf.keymaps, { desc = '[S]earch [K]eymaps' })
