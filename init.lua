@@ -102,6 +102,21 @@ require('lazy').setup({
     },
   },
   {
+    'brianhuster/live-preview.nvim',
+    dependencies = {
+      -- You can choose one of the following pickers
+      'ibhagwan/fzf-lua',
+    },
+    opts = {
+      port = 5500,
+      browser = 'default',
+      dynamic_root = false,
+      sync_scroll = true,
+      picker = '',
+      address = '127.0.0.1',
+    },
+  },
+  {
     'lervag/vimtex',
     ft = { 'tex', 'markdown' },
   },
@@ -158,83 +173,70 @@ require('lazy').setup({
   },
 
   {
-    'nvim-telescope/telescope.nvim',
+    'ibhagwan/fzf-lua',
     event = 'VimEnter',
     dependencies = {
-      'nvim-lua/plenary.nvim',
-      { -- If encountering errors, see telescope-fzf-native README for installation instructions
-        'nvim-telescope/telescope-fzf-native.nvim',
-
-        -- `build` is used to run some command when the plugin is installed/updated.
-        -- This is only run then, not every time Neovim starts up.
-        build = 'make',
-
-        -- `cond` is a condition used to determine whether this plugin should be
-        -- installed and loaded.
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-
-      -- Useful for getting pretty icons, but requires a Nerd Font.
+      'nvim-tree/nvim-web-devicons', -- optional, for icons
     },
     config = function()
-      require('telescope').setup {
-        extensions = {
-          ['ui-select'] = {
-            require('telescope.themes').get_dropdown(),
+      local fzf = require 'fzf-lua'
+
+      fzf.setup {
+        winopts = {
+          preview = {
+            default = 'bat',
           },
         },
-        pickers = {
-          buffers = {
-            ignore_current_buffer = true,
-            sort_lastused = true,
-            -- layout_strategy = 'vertical',
-            layout_config = {
-              preview_width = 0.7,
-            },
-          },
+        buffers = {
+          sort_lastused = true,
+          ignore_current_buffer = true,
+        },
+        lsp = {
+          jump_to_single_result = true,
+          async_or_timeout = 3000,
         },
       }
 
-      -- Enable Telescope extensions if they are installed
-      pcall(require('telescope').load_extension, 'fzf')
-      pcall(require('telescope').load_extension, 'ui-select')
+      -- =================
+      -- Keymaps
+      -- =================
 
-      -- See `:help telescope.builtin`
-      local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>o', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>f', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>oo', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      -- Help / meta
+      vim.keymap.set('n', '<leader>sh', fzf.help_tags, { desc = '[S]earch [H]elp' })
+      vim.keymap.set('n', '<leader>sk', fzf.keymaps, { desc = '[S]earch [K]eymaps' })
 
-      -- Slightly advanced example of overriding default behavior and theme
+      -- Files / buffers
+      vim.keymap.set('n', '<leader>o', fzf.files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>oo', fzf.oldfiles, { desc = '[S]earch Recent Files' })
+      vim.keymap.set('n', '<leader><leader>', fzf.buffers, { desc = '[ ] Find existing buffers' })
+
+      -- Grep / search
+      vim.keymap.set('n', '<leader>fw', fzf.grep_cword, { desc = '[S]earch current [W]ord' })
+      vim.keymap.set('n', '<leader>f', fzf.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sd', fzf.diagnostics_document, { desc = '[S]earch [D]iagnostics' })
+
+      -- Current buffer fuzzy find (Telescope dropdown equivalent)
       vim.keymap.set('n', '<leader>th', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
+        fzf.blines {
+          winopts = {
+            height = 0.4,
+            width = 0.6,
+            preview = { hidden = 'hidden' },
+          },
+        }
       end, { desc = '[/] Fuzzily search in current buffer' })
 
-      -- It's also possible to pass additional configuration options.
-      --  See `:help telescope.builtin.live_grep()` for information about particular keys
+      -- Live grep in open files
       vim.keymap.set('n', '<leader>/', function()
-        builtin.live_grep {
+        fzf.live_grep {
           grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
+          prompt = 'Live Grep in Open Files> ',
         }
       end, { desc = '[S]earch [/] in Open Files' })
 
-      -- Shortcut for searching your Neovim configuration files
+      -- Neovim config files
       vim.keymap.set('n', '<leader>c', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+        fzf.files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
@@ -277,15 +279,16 @@ require('lazy').setup({
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
+          local fzf = require 'fzf-lua'
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('gc', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('grr', fzf.lsp_references, '[G]oto [R]eferences')
+          map('gri', fzf.lsp_implementations, '[G]oto [I]mplementation')
+          map('gd', fzf.lsp_definitions, '[G]oto [D]efinition')
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('gO', fzf.lsp_document_symbols, 'Open Document Symbols')
+          map('gW', fzf.lsp_workspace_symbols, 'Open Workspace Symbols')
+          map('grt', fzf.lsp_typedefs, '[G]oto [T]ype Definition')
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
           ---@param bufnr? integer some lsp support methods only in specific files
