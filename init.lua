@@ -37,6 +37,7 @@ vim.g.mkdp_preview_options = {
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.o.conceallevel = 2
+vim.opt.guicursor = 'n-c:block-blinkon500-blinkoff500,' .. 'i-ci:ver25-blinkon500-blinkoff500,' .. 'v-ve:block,' .. 'r-cr:hor20,' .. 'o:hor50'
 
 --CUSTOM
 require 'himadri.himadri'
