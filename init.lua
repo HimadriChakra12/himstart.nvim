@@ -88,6 +88,13 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
+--require('lazy').setup({
+--  import = 'main/plugins',
+--}, {
+--  change_detection = {
+--    notify = false,
+--  },
+--})
 require('lazy').setup({
   'NMAC427/guess-indent.nvim',
   {
