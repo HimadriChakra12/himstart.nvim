@@ -12,6 +12,7 @@ require('himadri.zoxide').setup()
 require 'himadri.shell'
 require 'himadri.args'
 require 'himadri.pin'
+require 'himadri.csv'
 require 'himadri.keybinds'
 
 -- lua/phimadri.himadri.lugins..

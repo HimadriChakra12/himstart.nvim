@@ -125,6 +125,19 @@ require('lazy').setup({
     },
   },
   {
+    'HimadriChakra12/hsc.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      -- Optional but recommended:
+      'L3MON4D3/LuaSnip', -- full snippet engine
+      'hrsh7th/nvim-cmp', -- completion
+      'hrsh7th/cmp-nvim-lsp', -- LSP source for cmp
+    },
+    config = function()
+      require('hsc').setup()
+    end,
+  },
+  {
     'lervag/vimtex',
     ft = { 'tex', 'markdown' },
   },
@@ -159,8 +172,19 @@ require('lazy').setup({
     end,
   },
   {
+    'HimadriChakra12/calendar.nvim',
+    keys = {
+      { '<leader>ca', '<cmd>Calendar<cr>', desc = 'Open Calendar' },
+      { '<leader>ct', '<cmd>CalAdd<cr>', desc = 'Add Task Today' },
+    },
+    config = function()
+      require('calendar').setup()
+    end,
+  },
+  {
     'HimadriChakra12/excel.nvim',
     opts = {
+      open_csv = false,
       python_cmd = 'python3',
       max_col_width = 20,
       auto_recalc = false,
