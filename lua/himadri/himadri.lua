@@ -13,6 +13,8 @@ require 'himadri.shell'
 require 'himadri.args'
 require 'himadri.pin'
 require 'himadri.csv'
+require 'himadri.web'
+require('himadri.sxiv').setup()
 require 'himadri.keybinds'
 
 -- lua/phimadri.himadri.lugins..
