@@ -177,42 +177,31 @@ function M.zt(query)
   local entries = {}
   local path_map = {}
   for _, entry in ipairs(results) do
-    local display = vim.fn.fnamemodify(entry.path, ':~')
-    entries[#entries + 1] = display
-    path_map[display] = entry.path
+    entries[#entries + 1] = entry.path -- full absolute path
+    path_map[entry.path] = entry.path
+  end
+  local preview_cmd
+  if vim.fn.has 'win32' == 1 then
+    preview_cmd =
+      "powershell -NoProfile -Command \"Get-ChildItem -Force -LiteralPath '{}' | Format-Table Mode,Name,Length,LastWriteTime | Out-String | Select-String -NotMatch '^Directory:'\""
+  elseif vim.fn.executable 'eza' == 1 then
+    preview_cmd = 'eza --color=always --icons=always --group-directories-first -la {}'
+  else
+    preview_cmd = 'ls --color=always -la {}'
   end
 
   fzf.fzf_exec(entries, {
     prompt = '  Zoxscope  > ',
-    preview = function(selected)
-      if not selected or not selected[1] then
-        return {}
-      end
-      local path = path_map[selected[1]]
-      if not path or path == '' then
-        return {}
-      end
-
-      if vim.fn.has 'win32' == 1 then
-        return {
-          'powershell',
-          '-NoProfile',
-          '-Command',
-          string.format(
-            'Get-ChildItem -Force -LiteralPath \'%s\' | Format-Table Mode,Name,Length,LastWriteTime | out-string | Select-String -NotMatch "^Directory:"',
-            path
-          ),
-        }
-      else
-        return { 'ls', '-la', path }
-      end
-    end,
+    fzf_opts = {
+      ['--preview'] = preview_cmd,
+      ['--preview-window'] = 'right:50%',
+    },
     actions = {
       ['default'] = function(selected)
         if not selected or not selected[1] then
           return
         end
-        local path = path_map[selected[1]]
+        local path = selected[1]
         if path then
           vim.cmd('cd ' .. vim.fn.fnameescape(path))
           update_history(path)
