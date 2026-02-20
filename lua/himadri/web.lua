@@ -4,7 +4,7 @@ local history_index = 0
 
 -- open a vsplit for browsing
 local function open_split()
-  vim.cmd 'vsplit'
+  vim.cmd 'split'
   return vim.api.nvim_get_current_win()
 end
 
