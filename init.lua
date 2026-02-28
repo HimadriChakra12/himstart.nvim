@@ -30,6 +30,7 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.autoread = true
+vim.opt.selection = 'inclusive'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 vim.g.mkdp_preview_options = {
@@ -240,7 +241,7 @@ require('lazy').setup({
 
       -- Grep / search
       vim.keymap.set('n', '<leader>fw', fzf.grep_cword, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>f', fzf.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>ff', fzf.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', fzf.diagnostics_document, { desc = '[S]earch [D]iagnostics' })
 
       -- Current buffer fuzzy find (Telescope dropdown equivalent)
