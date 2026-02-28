@@ -1,8 +1,5 @@
 -- Dynamic Variables According to user Preference
 local Dashboard_file_counter_number = 5
-------------------------------------------------------------
--- Startup autocmd (numbers + intro handling)
-------------------------------------------------------------
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   callback = function()
@@ -15,9 +12,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
-------------------------------------------------------------
--- Git status helper
-------------------------------------------------------------
 local function get_git_status()
   local git_root = vim.fn.systemlist('git rev-parse --show-toplevel 2>/dev/null')[1]
   if not git_root or git_root == '' then
@@ -50,18 +44,12 @@ local function get_git_status()
   }
 end
 
-------------------------------------------------------------
--- Dashboard
-------------------------------------------------------------
 local function show_dashboard()
   -- Only show when no file is provided
   if vim.fn.argc() ~= 0 or vim.fn.line2byte '$' ~= -1 then
     return
   end
 
-  --------------------------------------------------------
-  -- Highlights
-  --------------------------------------------------------
   vim.cmd [[
         highlight! DashboardHeader     guifg=#b8bb26
 
@@ -70,9 +58,6 @@ local function show_dashboard()
         highlight! DashboardGitDirty   guifg=#fb4934
     ]]
 
-  --------------------------------------------------------
-  -- Header
-  --------------------------------------------------------
   local header = {
     '',
     '',
@@ -91,9 +76,6 @@ local function show_dashboard()
     '',
   }
 
-  --------------------------------------------------------
-  -- Pins
-  --------------------------------------------------------
   local pinner = require 'himadri.pin'
   local pins = pinner.get_pins()
 
@@ -106,9 +88,6 @@ local function show_dashboard()
     end
   end
 
-  --------------------------------------------------------
-  -- Recent files
-  --------------------------------------------------------
   local recent_files = {}
   local counter = 1
 
@@ -125,17 +104,8 @@ local function show_dashboard()
     end
   end
 
-  --------------------------------------------------------
-  -- Git status
-  --------------------------------------------------------
   local git = get_git_status()
 
-  --------------------------------------------------------
-  -- Footer
-  --------------------------------------------------------
-  --------------------------------------------------------
-  -- Buffer setup
-  --------------------------------------------------------
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_name(buf, 'Welcome, Himadri')
 
@@ -146,9 +116,6 @@ local function show_dashboard()
   vim.wo.number = false
   vim.wo.relativenumber = false
 
-  --------------------------------------------------------
-  -- Build content
-  --------------------------------------------------------
   local content = vim.list_extend({}, header)
   vim.list_extend(content, pin_lines)
 
@@ -166,9 +133,6 @@ local function show_dashboard()
     table.insert(content, string.format('   %s  +%d  ~%d  ?%d', git.branch, git.staged, git.modified, git.untracked))
   end
 
-  --------------------------------------------------------
-  -- Write buffer
-  --------------------------------------------------------
   vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 
@@ -193,9 +157,6 @@ local function show_dashboard()
   vim.api.nvim_set_current_buf(buf)
   vim.api.nvim_win_set_cursor(0, { 21, 6 })
 
-  --------------------------------------------------------
-  -- Keymaps
-  --------------------------------------------------------
   local opts = { buffer = buf, silent = true, nowait = true }
 
   -- Keybinds for recent files (1-5)
@@ -242,9 +203,6 @@ local function show_dashboard()
   vim.keymap.set('n', 'q', ':q<CR>', opts)
 end
 
-------------------------------------------------------------
--- Autocmd + command
-------------------------------------------------------------
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     vim.schedule(show_dashboard)
