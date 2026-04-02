@@ -50,6 +50,9 @@ local function show_dashboard()
     return
   end
 
+  local v = vim.version()
+  local nvim_version = v and (v.major .. '.' .. v.minor) or '?'
+
   vim.cmd [[
         highlight! DashboardHeader     guifg=#b8bb26
 
@@ -70,7 +73,7 @@ local function show_dashboard()
     '           ████  ███████████████   ██',
     '                                   ██',
     '',
-    '                  Neovim ' .. vim.version().major .. '.' .. vim.version().minor,
+    '                Neovim ' .. nvim_version,
     '',
     '',
     '',
