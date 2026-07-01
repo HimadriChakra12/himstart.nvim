@@ -8,6 +8,10 @@
       "rev": "32ea8b30c3a11859db93e6e4ae3690b0be8d7cc6",
       "src": "https://github.com/HimadriChakra12/calendar.nvim"
     },
+    "compile-mode.nvim": {
+      "rev": "8ac2e92000fb0f5abb248f8da74b6dcd82f7ca1e",
+      "src": "https://github.com/HimadriChakra12/compile-mode.nvim"
+    },
     "fzf-lua": {
       "rev": "5cbe58ca48c4c4a2fbe5e324b854596d8242711e",
       "src": "https://github.com/ibhagwan/fzf-lua"

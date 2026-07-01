@@ -43,4 +43,5 @@ require('oil').setup {
     case_insensitive = false,
     sort = { { 'type', 'asc' }, { 'name', 'asc' } },
   },
+  vim.keymap.set("n", "<space>-", require("oil").toggle_float)
 }

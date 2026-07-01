@@ -3,6 +3,7 @@ vim.pack.add {
   'https://github.com/nvim-tree/nvim-web-devicons',
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/stevearc/oil.nvim',
+  "https://github.com/HimadriChakra12/compile-mode.nvim",
 -- 'https://github.com/saghen/blink.cmp',
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/lewis6991/gitsigns.nvim',
