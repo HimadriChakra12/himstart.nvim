@@ -1,9 +1,13 @@
+vim.pack.add {
+  'https://github.com/nvim-tree/nvim-web-devicons',
+}
 local fzf = require 'fzf-lua'
 fzf.setup {
   winopts = { preview = { default = 'bat' } },
   buffers = { sort_lastused = true, ignore_current_buffer = true },
   lsp = { jump_to_single_result = true, async_or_timeout = 3000 },
 }
+
 vim.keymap.set('n', '<leader>sh', fzf.help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sk', fzf.keymaps,   { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader>o',        fzf.files,    { desc = '[S]earch [F]iles' })

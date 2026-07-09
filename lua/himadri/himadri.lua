@@ -5,7 +5,6 @@ require 'himadri.heads'
 require 'himadri.reader'
 require 'himadri.style'
 require 'himadri.theme'
-require 'himadri.dx'
 require 'himadri.terminal'
 require 'himadri.netwr'
 require('himadri.zoxide').setup()
