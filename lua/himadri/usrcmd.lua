@@ -9,7 +9,7 @@
 --end, {})
 
 function Markreader()
-    vim.cmd("normal! ggVgq")
+    vim.cmd("normal! ggVGgq")
 end
 
 vim.api.nvim_create_user_command('Mr', function()
