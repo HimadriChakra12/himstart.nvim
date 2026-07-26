@@ -8,7 +8,12 @@
 --require("pacman.maze").open()
 --end, {})
 
-vim.api.nvim_create_user_command('ReaderMode', function()
+function Markreader()
+    vim.cmd("normal! ggVgq")
+end
+
+vim.api.nvim_create_user_command('Mr', function()
+  Markreader()
   ToggleReaderMode()
 end, { desc = 'Toggle distraction-free reader mode' })
 

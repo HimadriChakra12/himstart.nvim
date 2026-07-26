@@ -43,4 +43,9 @@ function ToggleReaderMode()
   end
 end
 
+vim.api.nvim_create_user_command('ReaderMode', function()
+  ToggleReaderMode()
+end, { desc = 'Toggle distraction-free reader mode' })
+
 vim.api.nvim_set_keymap('n', '<leader>r', ':lua ToggleReaderMode()<CR>', { noremap = true, silent = true })
+
