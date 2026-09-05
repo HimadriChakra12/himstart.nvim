@@ -107,7 +107,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufDelete' }, {
 update_buffers()
 
 -- [latest] vim.opt.statusline = "[%{toupper(mode())}] [%L:%c] %m %= [ %f ] %= %y %p%% %#StatusLineMode#" .. get_git_branch() .. get_git_status() ..  "%#StatusLine# "
-vim.opt.statusline = "[%{toupper(mode())}] [%L:%c:%l] %m %{luaeval('get_buffers()')} %= %y %p%% %#StatusLineMode#"
+vim.opt.statusline = "[%{toupper(mode())}] %m %{luaeval('get_buffers()')} %= %y [%L:%c:%l] %p%% %#StatusLineMode#"
   .. get_git_branch()
   .. get_git_status()
   .. '%#StatusLine# '
