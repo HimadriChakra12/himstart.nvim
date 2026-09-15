@@ -1,20 +1,21 @@
 -- /lua/..
-require 'himadri.dashboard'
-require 'himadri.usrcmd'
-require 'himadri.heads'
-require 'himadri.reader'
-require 'himadri.style'
-require 'himadri.theme'
-require 'himadri.terminal'
-require 'himadri.netwr'
-require('himadri.zoxide').setup()
-require 'himadri.shell'
-require 'himadri.args'
-require 'himadri.pin'
-require 'himadri.csv'
-require 'himadri.web'
+require('himadri.dashboard')
+require('himadri.usrcmd')
+require('himadri.heads')
+require('himadri.reader')
+require('himadri.style')
+require('himadri.theme')
+require('himadri.terminal')
+require('himadri.netwr')
+require('himadri.shell')
+require('himadri.args')
+require('himadri.pin')
+require('himadri.csv')
+require('himadri.web')
+require('himadri.keybinds')
 require('himadri.sxiv').setup()
-require 'himadri.keybinds'
+require('himadri.zoxide').setup()
+require('himadri.markpreview').setup()
 
 -- lua/phimadri.himadri.lugins..
 --require("himadri.plugins.nvim_compile")
