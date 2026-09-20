@@ -1,4 +1,3 @@
-
 require('oil').setup {
   default_file_explorer = true,
   columns = { 'permissions', 'size', 'mtime' },
@@ -9,7 +8,7 @@ require('oil').setup {
     conceallevel = 3, concealcursor = 'nvic',
   },
   delete_to_trash = false,
-  skip_confirm_for_simple_edits = false,
+  skip_confirm_for_simple_edits = true,
   prompt_save_on_select_new_entry = true,
   cleanup_delay_ms = 2000,
   lsp_file_methods = { enabled = true, timeout_ms = 1000, autosave_changes = false },
@@ -45,3 +44,28 @@ require('oil').setup {
   },
   vim.keymap.set("n", "<space>-", require("oil").toggle_float)
 }
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = vim.api.nvim_create_augroup("OilLocalCwd", { clear = true }),
+  callback = function(o)
+    if o.match:find("^oil://") then
+      vim.cmd("lcd " .. require("oil").get_current_dir())
+    else
+      vim.cmd("lcd " .. vim.fn.getcwd(-1))
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("ShellCmdPost", {
+  group = vim.api.nvim_create_augroup("OilRefreshAfterShell", { clear = true }),
+  callback = function()
+    local ok, oil = pcall(require, "oil")
+    if ok and vim.bo.filetype == "oil" then
+      -- try both; oil's API has changed across versions
+      if oil.reload then
+        oil.reload()
+      elseif oil.refresh then
+        oil.refresh()
+      end
+    end
+  end,
+})
