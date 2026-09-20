@@ -13,3 +13,4 @@ keymap('n', '<leader>gP', ':!git pull<CR>', opts)
 keymap('n', ';;', ':w<CR>', opts)
 
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkPreview<cr>")
+vim.keymap.set("n", "<leader>a", "<cmd>Compile<cr>")

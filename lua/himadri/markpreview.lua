@@ -1,19 +1,28 @@
 local M = {}
 
 M.opts = {
-	cmd = "smd",                       -- the binary, change if it's not on PATH
-	filetypes = { "markdown", "html" }, -- :MarkPreview refuses anything else
+	cmd = "smd",
+	filetypes = { "markdown", "html" },
 }
 
--- path -> job id, so hitting the keybind twice doesn't spawn two windows
+local augroup = vim.api.nvim_create_augroup("MarkPreview", { clear = true })
+
 local jobs = {}
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	group = augroup,
+	callback = function()
+		for path in pairs(jobs) do
+			M.close(path)
+		end
+	end,
+})
 
 local function running(path)
 	local job = jobs[path]
 	if not job then
 		return false
 	end
-	-- jobwait with a 0 timeout just polls; -1 means "still running"
 	return vim.fn.jobwait({ job }, 0)[1] == -1
 end
 
@@ -31,13 +40,13 @@ function M.open(path)
 	end
 
 	if running(path) then
-		return -- already open, nothing to do - smd's own watch handles updates
+		return
 	end
 
 	local job = vim.fn.jobstart(
 		{ "sh", "-c", string.format("exec %s %s </dev/null >/dev/null 2>&1", M.opts.cmd, vim.fn.shellescape(path)) },
 		{
-			detach = true, -- survives :qa, doesn't tie its life to this nvim instance
+			detach = true,
 			on_exit = function()
 				jobs[path] = nil
 			end,
@@ -49,6 +58,24 @@ function M.open(path)
 		return
 	end
 	jobs[path] = job
+
+	local winid = vim.api.nvim_get_current_win()
+	vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+		group = augroup,
+		buffer = vim.api.nvim_get_current_buf(),
+		once = true,
+		callback = function()
+			M.close(path)
+		end,
+	})
+	vim.api.nvim_create_autocmd("WinClosed", {
+		group = augroup,
+		pattern = tostring(winid),
+		once = true,
+		callback = function()
+			M.close(path)
+		end,
+	})
 end
 
 function M.close(path)
