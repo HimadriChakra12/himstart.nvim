@@ -5,7 +5,6 @@ vim.pack.add {
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://github.com/HimadriChakra12/calendar.nvim',
-  'https://github.com/ck-zhang/mistake.nvim',
   'https://github.com/mplusp/pack-manager.nvim',
   -- 'https://github.com/saghen/blink.cmp',
   -- 'https://github.com/HimadriChakra12/hsc.nvim',
@@ -23,5 +22,5 @@ require 'plugins.git'
 require 'plugins.fuzzy'
 require 'plugins.files'
 require 'plugins.compile'
--- require 'plugins.lsp'
+require 'plugins.lsp'
 require 'plugins.extras'
