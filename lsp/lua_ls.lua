@@ -86,8 +86,9 @@ return {
   ---@type lspconfig.settings.lua_ls
   settings = {
     Lua = {
-      codeLens = { enable = true },
-      hint = { enable = true, semicolon = 'Disable' },
+        workspace = { library = vim.api.nvim_get_runtime_file("",true) },
+        codeLens = { enable = true },
+        hint = { enable = true, semicolon = 'Disable' },
     },
   },
 }
